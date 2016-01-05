@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Codeaddicts.Lizard.FtpItems;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading;
 
 namespace Codeaddicts.Lizard
@@ -16,19 +19,65 @@ namespace Codeaddicts.Lizard
             Login (User, Password);
         }
 
-        public void UploadFile (string filename) {
+        public void ConnectPassive()
+        {
+            // Send PASV Command, wait for Answer, parse Answer
             PASV ();
-            Console.WriteLine ("Waiting for datastream to become ready");
-            Data.Wait ();
-            Console.WriteLine ("Data stream is ready");
-            Data.Open ();
-            TYPE ('I');
-            STRU ('F');
-            MODE ('S');
-            STOR (filename);
-            var bytes = File.ReadAllBytes (filename);
-            Data.Send (bytes);
+
+            // Connect the DataStream
+            Data.Connect ();
+        }
+
+        public void UploadFile (string fileName) {
+            // Does the File even exist?
+            if (!File.Exists (fileName)) throw new FileNotFoundException (fileName);
+
+            // Initialize File Transfer
+            STOR(fileName);
+
+            // Read Bytes, then send them and close Stream
+            using (var fileStream = File.OpenRead(fileName))
+            {
+                fileStream.CopyTo(Data.Stream, 512);
+            }
             Data.Close ();
+
+            // Wait for Confirmation on File Transfer
+            MessageHandled.WaitOne ();
+        }
+
+        public void DownloadFile(string fileName)
+        {
+            // Intitialize File Transfer
+            RETR(fileName);
+
+            // Read Bytes from Stream, save them to disk
+            using (var fileStream = File.Create(fileName))
+            {
+                Data.Stream.CopyTo(fileStream, 512);
+            }
+
+            // Wait for Confirmation on File Transfer. Stream will be closed by the Server!
+            MessageHandled.WaitOne();
+        }
+
+        public IEnumerable<FtpItem> GetDirectoryContents(string location = "")
+        {
+            // Intitialize File Transfer
+            LIST (location);
+
+            // Read Bytes from Stream, save them to disk
+            var result = new StreamReader(Data.Stream).ReadToEnd();
+            foreach (string line in result.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (line.StartsWith("d"))
+                    yield return FtpDirectory.Parse(line);
+                else
+                    yield return FtpFile.Parse(line);
+            }
+
+            // Wait for Confirmation on File Transfer. Stream will be closed by the Server!
+            MessageHandled.WaitOne();
         }
     }
 }
