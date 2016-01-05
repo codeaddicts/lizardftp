@@ -1,6 +1,10 @@
 #Autosave files
 *~
 
+#binaries
+expand.exe
+unexpand.exe
+
 #build
 [Oo]bj/
 [Bb]in/
