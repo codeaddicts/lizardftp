@@ -7,72 +7,52 @@ namespace Codeaddicts.Lizard
 {
     public class DataStream : IDisposable
     {
-        bool available;
-        public bool Available;
         public TcpClient Client;
-        IPEndPoint EndPoint;
+        public IPEndPoint EndPoint { get; set; }
+        public NetworkStream Stream { get; private set; }
 
         public DataStream () {
-            available = false;
-            Available = false;
             Client = null;
+            Stream = null;
+            EndPoint = null;
         }
 
-        internal void SetAvailable (IPEndPoint ep) {
-            EndPoint = ep;
-            available = true;
-        }
+        public void Connect(IPEndPoint ep = null)
+        {
+            if (ep != null) EndPoint = ep;
+            if (EndPoint == null) throw new Exception("Invalid Arguments");
 
-        public void Open () {
-            if (!available) {
-                Console.WriteLine ("[000] Can't create socket: No endpoint available");
-                return;
-            }
-            Console.WriteLine ("[000] Creating socket");
             if (Client != null) {
-                Client.GetStream ().Dispose ();
+                Stream.Dispose ();
                 Client = null;
             }
+
             Client = new TcpClient ();
-            Console.WriteLine ("[000] Connecting to {0}", EndPoint);
+
             try {
                 Client.Connect (EndPoint);
+                Stream = Client.GetStream();
             } catch (Exception e) {
                 Console.WriteLine (e.Message);
                 Client = null;
-                available = false;
-                Available = false;
                 return;
             }
-            Console.WriteLine ("[000] Data stream opened");
-            Available = true;
         }
 
         public void Close () {
-            available = false;
-            Available = false;
-            Client.GetStream ().Dispose ();
+            Stream.Dispose ();
             Client = null;
-        }
-
-        public void Wait () {
-            while (!available)
-                Thread.Sleep (1);
+            EndPoint = null;
         }
 
         public void Send (byte[] data) {
-            Wait ();
-            Client.NoDelay = true;
-            NetworkStream ns = Client.GetStream ();
-            ns.Write (data, 0, data.Length);
-            Client.NoDelay = false;
+            Stream.Write (data, 0, data.Length);
         }
 
         #region IDisposable implementation
 
         public void Dispose () {
-            Available = false;
-            Client.GetStream ().Dispose ();
+            Stream.Dispose ();
         }
 
         #endregion

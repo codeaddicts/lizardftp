@@ -6,7 +6,6 @@ namespace Codeaddicts.Lizard
     public partial class FtpClient
     {
         void ProcessMessage (int code, bool dashed, string message, string raw) {
-            Ready = false;
             LogMessage (code, message);
             switch (code) {
             case 110:
@@ -30,9 +29,11 @@ namespace Codeaddicts.Lizard
             case 211:
                 // System status, or system help reply
                 // Response to FEAT
-                if (Regex.IsMatch (raw, REGEX_FEAT_BEGIN)) {
+                if (Regex.IsMatch(raw, RegexConstants.REGEX_FEAT_BEGIN))
+                {
                     string line = ClientReader.ReadLine ();
-                    while (!Regex.IsMatch (line, REGEX_FEAT_END)) {
+                    while (!Regex.IsMatch(line, RegexConstants.REGEX_FEAT_END))
+                    {
                         ProcessMessage (000, false, line, line);
                         line = ClientReader.ReadLine ();
                     }
@@ -49,7 +50,7 @@ namespace Codeaddicts.Lizard
                 // Help message
                 break;
             case 215:
-                // NAME system type
+                // ???
                 break;
             case 220:
                 // Service ready for new user
@@ -65,12 +66,7 @@ namespace Codeaddicts.Lizard
                 break;
             case 227:
                 // Entering passive mode (h1,h2,h3,h4,p1,p2)
-                var ep = ParsePasvResponse (message);
-                LogMessage (000, ep.ToString ());
-                if (Data.Available)
-                    Data.Close ();
-                LogMessage (000, "Opening data connection");
-                Data.SetAvailable (ep);
+                Data.EndPoint = ParsePasvResponse (message);
                 break;
             case 230:
                 // User logged in, proceed
@@ -80,6 +76,7 @@ namespace Codeaddicts.Lizard
                 break;
             case 257:
                 // "PATHNAME" created
+                break;
             case 331:
                 // User name okay, need password
                 Quit |= string.IsNullOrEmpty (Password);
@@ -147,7 +144,10 @@ namespace Codeaddicts.Lizard
                 // File name not allowed
                 break;
             }
-            Ready = true;
+
+            // Allow the operation to continue
+            MessageHandled.Set();
+            MessageHandled.Reset();
         }
     }
 }

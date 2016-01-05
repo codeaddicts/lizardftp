@@ -3,83 +3,95 @@
 namespace Codeaddicts.Lizard
 {
     public partial class FtpClient
-    {
+    {        
         public void CDUP () {
-            while (!Ready) {}
             Send ("CDUP");
+            MessageHandled.WaitOne();
         }
 
         public void CWD (string directory) {
-            while (!Ready) {}
-            Send ("CWD {0}", directory);
+            Send("CWD {0}", directory);
+            MessageHandled.WaitOne();
         }
 
         public void MKD (string name) {
-            while (!Ready) {}
-            Send ("MKD {0}", name);
+            Send("MKD {0}", name);
+            MessageHandled.WaitOne();
         }
 
         public void MODE (char mode) {
-            while (!Ready) {}
-            Send ("MODE {0}", mode);
+            Send("MODE {0}", mode);
+            MessageHandled.WaitOne();
         }
 
         public void NLST (string directory = null) {
-            while (!Ready) {}
             if (directory == null)
                 Send ("NLST");
             else
-                Send ("NLST {0}", directory);
+                Send("NLST {0}", directory);
+            MessageHandled.WaitOne();
         }
 
         public void USER (string username) {
-            while (!Ready) {}
-            Send ("USER {0}", username);
+            Send("USER {0}", username);
+            MessageHandled.WaitOne();
         }
 
         public void PASS (string password) {
-            while (!Ready) {}
-            Send ("PASS {0}", password);
+            Send("PASS {0}", password);
+            MessageHandled.WaitOne();
         }
 
         public void PWD () {
-            while (!Ready) {}
-            Send ("PWD");
+            Send("PWD");
+            MessageHandled.WaitOne();
         }
 
         public void STOR (string filename) {
-            while (!Ready) {}
-            Send ("STOR {0}", filename);
+            Send("STOR {0}", filename);
+            MessageHandled.WaitOne();
+        }
+
+        public void RETR(string fileName)
+        {
+            Send("RETR {0}", fileName);
+            MessageHandled.WaitOne();
+        }
+
+        public void LIST(string fileName = "")
+        {
+            Send((fileName == "") ? "LIST" : "LIST {0}", fileName);
+            MessageHandled.WaitOne();
         }
 
         public void SYST () {
-            while (!Ready) {}
-            Send ("SYST");
+            Send("SYST");
+            MessageHandled.WaitOne();
         }
 
         public void FEAT () {
-            while (!Ready) {}
-            Send ("FEAT");
+            Send("FEAT");
+            MessageHandled.WaitOne();
         }
 
         public void TYPE (char type) {
-            while (!Ready) {}
-            Send ("TYPE {0}", type);
+            Send("TYPE {0}", type);
+            MessageHandled.WaitOne();
         }
 
         public void STRU (char type) {
-            while (!Ready) {}
-            Send ("STRU {0}", type);
+            Send("STRU {0}", type);
+            MessageHandled.WaitOne();
         }
 
         public void PASV () {
-            while (!Ready) {}
-            Send ("PASV");
+            Send("PASV");
+            MessageHandled.WaitOne();
         }
 
         public void NOOP () {
-            while (!Ready) {}
-            Send ("NOOP");
+            Send("NOOP");
+            MessageHandled.WaitOne();
         }
     }
 }

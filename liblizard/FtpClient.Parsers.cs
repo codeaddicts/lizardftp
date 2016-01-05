@@ -22,19 +22,21 @@ namespace Codeaddicts.Lizard
         }
 
         public IPEndPoint ParsePasvResponse (string response) {
-            var m = Regex.Match (response, REGEX_PASV_PREPARE);
-            var s = m.Value.Split (',');
-            var ips = string.Format (
+            var regExMatch = Regex.Match(response, RegexConstants.REGEX_PASV_PREPARE);
+            var endPointParts = regExMatch.Value.Split(',');
+
+            var endPointIpString = string.Format(
                 "{0}.{1}.{2}.{3}",
-                s [0], s [1],
-                s [2], s [3]
+                endPointParts[0], endPointParts[1],
+                endPointParts[2], endPointParts[3]
             );
-            var ip = IPAddress.Parse (ips);
-            var pp1 = int.Parse (s [4]);
-            var pp2 = int.Parse (s [5]);
-            var port = (pp1 * 255) + pp2;
-            var ep = new IPEndPoint (ip, port);
-            return ep;
+
+            var endPointIp = IPAddress.Parse(endPointIpString);
+
+            var endPointPort = (int.Parse(endPointParts[4]) * 256) + int.Parse(endPointParts[5]);
+            var endPoint = new IPEndPoint(endPointIp, endPointPort);
+
+            return endPoint;
         }
     }
 }

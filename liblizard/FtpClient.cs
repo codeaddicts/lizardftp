@@ -9,9 +9,9 @@ namespace Codeaddicts.Lizard
 {
     public partial class FtpClient : IDisposable
     {
-        public const string	DEFAULT_USER     	= "Anonymous";
-        public const string	DEFAULT_PASSWORD	= "";
-        public const string	DEFAULT_HOST     	= "127.0.0.1";
+        public const string	DEFAULT_USER     	= "nikxda";
+        public const string	DEFAULT_PASSWORD	= "c0wSt3ak98";
+        public const string	DEFAULT_HOST     	= "nikx.io";
         public const string	DEFAULT_PATH     	= "/";
         public const int	DEFAULT_PORT     	= 21;
 
@@ -24,8 +24,9 @@ namespace Codeaddicts.Lizard
         string Path;
         string Password;
         int    Port;
-        volatile bool Ready;
         volatile bool Quit;
+
+        ManualResetEvent MessageHandled;
 
         public FtpClient () {
             InitializeParameters ();
@@ -133,6 +134,7 @@ namespace Codeaddicts.Lizard
             User = user;
             Path = path;
             Password = password;
+            MessageHandled = new ManualResetEvent(false);
             Data = new DataStream ();
             Console.WriteLine (
                 "[000] {0}:{1}@{2}:{3}",
