@@ -22,7 +22,7 @@ namespace Codeaddicts.Lizard
         }
 
         public IPEndPoint ParsePasvResponse (string response) {
-            var m = Regex.Match (response, @"(?<=\()((?:(?:[0-9]{1,3})(?:,)?){6})(?=\))");
+            var m = Regex.Match (response, REGEX_PASV_PREPARE);
             var s = m.Value.Split (',');
             var ips = string.Format (
                 "{0}.{1}.{2}.{3}",

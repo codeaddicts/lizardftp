@@ -37,6 +37,10 @@
     <Compile Include="FtpClient.Raw.cs" />
     <Compile Include="FtpClient.Parsers.cs" />
     <Compile Include="DataStream.cs" />
+    <Compile Include="FtpClient.Regexp.cs" />
+    <Compile Include="FtpClient.Abstractions.cs" />
+    <Compile Include="FtpClient.Processor.cs" />
+    <Compile Include="FtpClient.Events.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
