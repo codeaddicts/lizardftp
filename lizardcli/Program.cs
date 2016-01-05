@@ -21,7 +21,10 @@ namespace Codeaddicts.Lizard.Cli
         public void Main () {
             Client.Connect ();
             Client.Login ();
-            Client.PASV ();
+            Client.SYST ();
+            Client.FEAT ();
+            Client.PWD ();
+            //Client.UploadFile ("test.jpg");
             Client.Wait ();
         }
     }
