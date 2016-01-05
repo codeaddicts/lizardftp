@@ -7,11 +7,11 @@ namespace Codeaddicts.Lizard
     {
         // Host format: [user[:pass]@]host[:port][/path]
 
-        public string	User				{ get { return GetUser (Format); } }
-        public string	Path				{ get { return GetPath (Format); } }
-        public string	Host				{ get { return GetHost (Format); } }
-        public int		Port				{ get { return GetPort (Format); } }
-        public string	Password			{ get { return GetPassword (Format); } }
+        public string User { get { return GetUser (Format); } }
+        public string Path { get { return GetPath (Format); } }
+        public string Host { get { return GetHost (Format); } }
+        public string Password { get { return GetPassword (Format); } }
+        public int Port { get { return GetPort (Format); } }
 
         string Format;
 
@@ -20,8 +20,7 @@ namespace Codeaddicts.Lizard
             Format = format;
         }
 
-        static string GetUser (string format)
-        {
+        static string GetUser (string format) {
             string host = format;
             if (string.IsNullOrEmpty (host))
                 return FtpClient.DEFAULT_USER;
@@ -34,8 +33,7 @@ namespace Codeaddicts.Lizard
             return host;
         }
 
-        static string GetPassword (string format)
-        {
+        static string GetPassword (string format) {
             string host = format;
             if (string.IsNullOrEmpty (host))
                 return FtpClient.DEFAULT_PASSWORD;
@@ -50,8 +48,7 @@ namespace Codeaddicts.Lizard
             return host;
         }
 
-        static string GetPath (string format)
-        {
+        static string GetPath (string format) {
             string host = format;
             if (string.IsNullOrEmpty (host))
                 return FtpClient.DEFAULT_PATH;
@@ -64,8 +61,7 @@ namespace Codeaddicts.Lizard
             return host;
         }
 
-        static string GetHost (string format)
-        {
+        static string GetHost (string format) {
             string host = format;
             if (string.IsNullOrEmpty (host))
                 return FtpClient.DEFAULT_HOST;
@@ -78,8 +74,7 @@ namespace Codeaddicts.Lizard
             return host;
         }
 
-        static int GetPort (string format)
-        {
+        static int GetPort (string format) {
             string host = format;
             if (string.IsNullOrEmpty (host))
                 return FtpClient.DEFAULT_PORT;
