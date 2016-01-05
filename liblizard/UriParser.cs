@@ -10,7 +10,7 @@ namespace Codeaddicts.Lizard
         public string	User				{ get { return GetUser (Format); } }
         public string	Path				{ get { return GetPath (Format); } }
         public string	Host				{ get { return GetHost (Format); } }
-        public int	Port				{ get { return GetPort (Format); } }
+        public int		Port				{ get { return GetPort (Format); } }
         public string	Password			{ get { return GetPassword (Format); } }
 
         string Format;
