@@ -9,35 +9,33 @@ using System.Threading.Tasks;
 
 namespace Codeaddicts.Lizard
 {
-    public class FtpClient : IDisposable
+    public partial class FtpClient : IDisposable
     {
-        public const string	DEFAULT_USER        = "Anonymous";
-        public const string	DEFAULT_PASSWORD    = "";
-        public const string	DEFAULT_HOST        = "127.0.0.1";
-        public const string	DEFAULT_PATH        = "/";
-        public const int	DEFAULT_PORT        = 21;
+        public const string	DEFAULT_USER     	= "Anonymous";
+        public const string	DEFAULT_PASSWORD	= "";
+        public const string	DEFAULT_HOST     	= "127.0.0.1";
+        public const string	DEFAULT_PATH     	= "/";
+        public const int	DEFAULT_PORT     	= 21;
 
-        Socket	Client;
-        string	Host;
-        string	User;
-        string	Path;
-        string	Password;
-        int     Port;
+        Socket Client;
+        string Host;
+        string User;
+        string Path;
+        string Password;
+        int    Port;
+        volatile bool Quit;
 
-        public FtpClient ()
-        {
+        public FtpClient () {
             InitializeParameters ();
         }
 
-        public FtpClient (string formatUri)
-        {
+        public FtpClient (string formatUri) {
             InitializeParameters (
                 parser: new UriParser (formatUri)
             );
         }
 
-        public void Connect ()
-        {
+        public void Connect () {
             Client = new Socket (
                 addressFamily: AddressFamily.InterNetwork,
                 socketType: SocketType.Stream,
@@ -45,7 +43,6 @@ namespace Codeaddicts.Lizard
             );
             Client.Connect (Host, Port);
             Task.Factory.StartNew (StartListening);
-            SendCredentials ();
         }
 
         public void Connect (
@@ -53,8 +50,7 @@ namespace Codeaddicts.Lizard
             int port = DEFAULT_PORT,
             string user = DEFAULT_USER,
             string password = DEFAULT_PASSWORD,
-            string path = DEFAULT_PATH)
-        {
+            string path = DEFAULT_PATH) {
             InitializeParameters (
                 host: host,
                 port: port,
@@ -65,8 +61,7 @@ namespace Codeaddicts.Lizard
             Connect ();
         }
 
-        public void Connect (string user, string password = DEFAULT_PASSWORD)
-        {
+        public void Connect (string user, string password = DEFAULT_PASSWORD) {
             Connect (
                 host: Host,
                 port: Port,
@@ -75,42 +70,43 @@ namespace Codeaddicts.Lizard
             );
         }
 
-        public void Wait ()
-        {
-            while (Client.Connected)
+        public void Login (string user, string password) {
+            USER (user);
+            if (!string.IsNullOrEmpty (password))
+                PASS (password);
+        }
+
+        public void Login () {
+            Login (User, Password);
+        }
+
+        public void Wait () {
+            while (!Quit && Client.Connected)
                 Thread.Sleep (1);
         }
 
-        void StartListening ()
-        {
+        void StartListening () {
             var ns = new NetworkStream (Client, false);
             var reader = new StreamReader (ns, Encoding.ASCII, false);
-            while (Client.Connected) {
+            while (!Quit && Client.Connected) {
                 AcceptLine (reader);
             }
             reader.Dispose ();
             ns.Dispose ();
+            Dispose ();
         }
 
-        void AcceptLine (TextReader reader)
-        {
+        void AcceptLine (TextReader reader) {
             var line = reader.ReadLine ();
-            int code = 0;
+            int code;
             bool dash;
-            if (line.Length > 2) {
-                var arr = line.Take (3).ToArray ();
-                var str = new string (arr);
-                code = int.Parse (str);
-            }
-            dash = line.Length > 3 && line [3] == '-';
-            string message = line
-                .Substring (3 + (dash ? 1 : 0))
-                .TrimStart (' ');
+            string message;
+            ParseResponse (line, out code, out dash, out message);
             ProcessMessage (code, dash, message);
         }
 
-        void ProcessMessage (int code, bool dashed, string message)
-        {
+        void ProcessMessage (int code, bool dashed, string message) {
+            LogMessage (code, message);
             switch (code) {
             case 110:
                 // Restart marker reply
@@ -159,6 +155,8 @@ namespace Codeaddicts.Lizard
                 break;
             case 227:
                 // Entering passive mode (h1,h2,h3,h4,p1,p2)
+                var ep = ParsePasvResponse (message);
+                LogMessage (000, ep.ToString ());
                 break;
             case 230:
                 // User logged in, proceed
@@ -170,6 +168,7 @@ namespace Codeaddicts.Lizard
                 // "PATHNAME" created
             case 331:
                 // User name okay, need password
+                Quit |= string.IsNullOrEmpty (Password);
                 break;
             case 332:
                 // Need account for login
@@ -178,6 +177,8 @@ namespace Codeaddicts.Lizard
                 // Requested file action pending further information
             case 421:
                 // Service not available, closing control connection
+                // Also: Login time exceeded
+                Quit = true;
                 break;
             case 425:
                 // Can't open data connection
@@ -232,25 +233,19 @@ namespace Codeaddicts.Lizard
                 // File name not allowed
                 break;
             }
+        }
+
+        void LogMessage (int code, string message) {
             Console.WriteLine ("[{0:000}] {1}", code, message);
         }
 
-        void SendCredentials ()
-        {
-            Send ("USER {0}\r\n", User);
-            if (!string.IsNullOrEmpty (Password))
-                Send ("PASS {0}\r\n", Password);
-        }
-
-        void Send (string format, params object[] args)
-        {
+        void Send (string format, params object[] args) {
             var text = string.Format (format, args);
             var data = Encoding.ASCII.GetBytes (text);
             SendRaw (data);
         }
 
-        void SendRaw (byte[] data)
-        {
+        void SendRaw (byte[] data) {
             SocketError error;
             Client.NoDelay = true;
             Client.Send (
@@ -268,17 +263,19 @@ namespace Codeaddicts.Lizard
             int port,
             string user,
             string path,
-            string password)
-        {
+            string password) {
             Host = host;
             Port = port;
             User = user;
             Path = path;
             Password = password;
+            Console.WriteLine (
+                "[000] {0}:{1}@{2}:{3}",
+                User, Password, Host, Port
+            );
         }
 
-        void InitializeParameters (UriParser parser)
-        {
+        void InitializeParameters (UriParser parser) {
             InitializeParameters (
                 host: parser.Host,
                 port: parser.Port,
@@ -288,8 +285,7 @@ namespace Codeaddicts.Lizard
             );
         }
 
-        void InitializeParameters ()
-        {
+        void InitializeParameters () {
             InitializeParameters (
                 host: DEFAULT_HOST,
                 port: DEFAULT_PORT,
@@ -301,8 +297,7 @@ namespace Codeaddicts.Lizard
 
         #region IDisposable implementation
 
-        public void Dispose ()
-        {
+        public void Dispose () {
             Client.Dispose ();
         }
 
