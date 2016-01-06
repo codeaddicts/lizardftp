@@ -146,8 +146,8 @@ namespace Codeaddicts.Lizard
             }
 
             // Allow the operation to continue
-            MessageHandler.Reset ();
             MessageHandler.Set ();
+            MessageHandler.Reset ();
         }
     }
 }
