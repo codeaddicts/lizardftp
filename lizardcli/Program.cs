@@ -31,7 +31,7 @@ namespace Codeaddicts.Lizard.Cli
             Client.MODE ('S');
 
             Client.ConnectPassive ();
-            Client.UploadFile ("pinkflesh.jpg");
+            Client.UploadFile ("test.jpg");
 
             Client.Wait ();
         }
