@@ -124,10 +124,12 @@ namespace Codeaddicts.Lizard
             Password = password;
             MessageHandler = new AutoResetEvent (false);
             Data = new DataStream ();
+            /*
             Console.WriteLine (
                 "[000] {0}:{1}@{2}:{3}",
                 User, Password, Host, Port
             );
+            */
         }
 
         void InitializeParameters (UriParser parser) {

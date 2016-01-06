@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5BE4EE48-9B3D-4B05-BE33-CD0A692797CE}</ProjectGuid>
+    <ProjectGuid>{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Codeaddicts.Lizard</RootNamespace>
     <AssemblyName>liblizard</AssemblyName>
@@ -63,6 +63,7 @@
     <Compile Include="FtpItems\FtpFile.cs" />
     <Compile Include="FtpItems\FtpItem.cs" />
     <Compile Include="FtpItems\FtpPermission.cs" />
+    <Compile Include="SmartPath.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
