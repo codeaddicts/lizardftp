@@ -3,10 +3,10 @@ using Codeaddicts.libArgument.Attributes;
 
 namespace Codeaddicts.Lizard.Cli
 {
-	public class Options
-	{
-		[Argument ("-u")]
-		public string Format;
-	}
+    public class Options
+    {
+        [Argument ("-u")]
+        public string Format;
+    }
 }
 

@@ -17,10 +17,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
-<<<<<<< HEAD
-    <PlatformTarget>x86</PlatformTarget>
-=======
->>>>>>> 28a16c7e10bb45a53018c7750384c50948d9537b
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>full</DebugType>
@@ -37,20 +33,12 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <Commandlineparameters>-u test:test@localhost</Commandlineparameters>
-<<<<<<< HEAD
-    <PlatformTarget>x86</PlatformTarget>
-=======
->>>>>>> 28a16c7e10bb45a53018c7750384c50948d9537b
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="codeaddicts.libArgument">
       <HintPath>..\packages\Codeaddicts.libArgument.0.1.5745.4423\lib\codeaddicts.libArgument.dll</HintPath>
     </Reference>
-<<<<<<< HEAD
-=======
-    <Reference Include="System.Net" />
->>>>>>> 28a16c7e10bb45a53018c7750384c50948d9537b
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -58,17 +46,14 @@
     <Compile Include="Options.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-<<<<<<< HEAD
-=======
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
->>>>>>> 28a16c7e10bb45a53018c7750384c50948d9537b
-  <ItemGroup>
-    <ProjectReference Include="..\liblizard\liblizard.csproj">
-      <Project>{5BE4EE48-9B3D-4B05-BE33-CD0A692797CE}</Project>
-      <Name>liblizard</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\liblizard\liblizard.csproj">
+      <Project>{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}</Project>
+      <Name>liblizard</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
