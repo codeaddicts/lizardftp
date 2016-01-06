@@ -89,10 +89,12 @@ namespace Codeaddicts.Lizard
             MessageHandled.WaitOne();
         }
 
+        /*
         public void NOOP () {
             Send("NOOP");
             MessageHandled.WaitOne();
         }
+        */
     }
 }
 

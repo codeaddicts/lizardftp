@@ -101,7 +101,7 @@ namespace Codeaddicts.Lizard
             Console.WriteLine ("[{0:000}] {1}", code, message);
         }
 
-        void Send (string format, params object[] args) {
+        public void Send (string format, params object[] args) {
             var text = string.Format (
                 format: "{0}\r\n",
                 arg0: string.Format (format, args)
