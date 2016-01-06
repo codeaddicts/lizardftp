@@ -22,16 +22,9 @@ namespace Codeaddicts.Lizard.Cli
         public void Main () {
             Client.Connect ();
             Client.Login ();
-            Client.SYST ();
-            Client.FEAT ();
-            Client.PWD ();
-
-            Client.TYPE ('I');
-            Client.STRU ('F');
-            Client.MODE ('S');
 
             Client.ConnectPassive ();
-            Client.UploadFile ("test.jpg");
+            Client.UploadFile ("100mphs.jpg");
 
             Client.Wait ();
         }

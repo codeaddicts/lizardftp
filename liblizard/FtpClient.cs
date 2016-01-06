@@ -26,7 +26,7 @@ namespace Codeaddicts.Lizard
         int    Port;
         volatile bool Quit;
 
-        ManualResetEvent MessageHandler;
+        AutoResetEvent MessageHandler;
 
         public FtpClient () {
             InitializeParameters ();
@@ -129,7 +129,7 @@ namespace Codeaddicts.Lizard
             User = user;
             Path = path;
             Password = password;
-            MessageHandler = new ManualResetEvent(false);
+            MessageHandler = new AutoResetEvent (false);
             Data = new DataStream ();
             Console.WriteLine (
                 "[000] {0}:{1}@{2}:{3}",
