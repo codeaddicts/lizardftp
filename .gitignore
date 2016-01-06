@@ -4,6 +4,7 @@
 #binaries
 expand.exe
 unexpand.exe
+bfg-1.12.8.jar
 
 #build
 [Oo]bj/
