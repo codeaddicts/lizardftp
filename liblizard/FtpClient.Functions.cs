@@ -46,12 +46,15 @@ namespace Codeaddicts.Lizard
             MessageHandler.WaitOne ();
         }
 
-        public void DownloadFile (string fileName) {
+        public void DownloadFile (string remotefilename, string localfilename = null) {
+
+            if (string.IsNullOrEmpty (localfilename))
+                localfilename = remotefilename;
             
             // Intitialize file transfer
-            RETR (fileName);
+            RETR (remotefilename);
 
-            using (var file = File.Create (fileName))
+            using (var file = File.Create (localfilename))
             using (var writer = new BinaryWriter (file)) {
                 var buf = new byte[512];
                 while (Data.Stream.Read (buf, 0, 512) > 0) {
