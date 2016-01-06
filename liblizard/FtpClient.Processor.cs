@@ -63,6 +63,8 @@ namespace Codeaddicts.Lizard
                 break;
             case 226:
                 // Closing data connection
+                if (EDataConnectionClosed != null)
+                    EDataConnectionClosed (this, EventArgs.Empty);
                 break;
             case 227:
                 // Entering passive mode (h1,h2,h3,h4,p1,p2)
@@ -95,7 +97,7 @@ namespace Codeaddicts.Lizard
                 // Can't open data connection
                 break;
             case 426:
-                // Connection closed; traClientStreamfer aborted
+                // Connection closed; transfer aborted
                 break;
             case 450:
                 // Requested file action not taken
@@ -105,7 +107,7 @@ namespace Codeaddicts.Lizard
                 break;
             case 452:
                 // Requested action not taken
-                // IClientStreamufficient storage space in system
+                // Insufficient storage space in system
                 break;
             case 500:
                 // Syntax error or

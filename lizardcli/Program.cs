@@ -24,15 +24,29 @@ namespace Codeaddicts.Lizard.Cli
         }
 
         public void Main () {
+
+            // Subscribe to events
+            Client.EConnectionClosed += QuitAndExit;
+
+            // Establish connection login, enter passive mode
             Client.Connect ();
             Client.Login ();
             Client.ConnectPassive ();
-            Thread.Sleep (200);
 
-            if (Options.ShouldDownload)
+            // Download if wanted
+            if (Options.ShouldDownload) {
+                bool downloadFinished = false;
+                EventHandler handler = null;
+                handler = (sender, e) => {
+                    Client.EDataConnectionClosed -= handler;
+                    downloadFinished = true;
+                };
+                Client.EDataConnectionClosed += handler;
                 Download ();
+                while (!downloadFinished) { }
+            }
 
-            Client.QUIT ();
+            QuitAndExit (null, null);
         }
 
         void Download () {
@@ -68,6 +82,11 @@ namespace Codeaddicts.Lizard.Cli
 
             // Download the file
             Client.DownloadFile (file, localdir);
+        }
+
+        void QuitAndExit (object sender, EventArgs e) {
+            Client.QUIT ();
+            Environment.Exit (0);
         }
     }
 }
