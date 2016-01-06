@@ -5,16 +5,16 @@ namespace Codeaddicts.Lizard.Cli
 {
     public class Options
     {
-        [Argument ("-u", "from-server", "to-server", "from-host", "to-host")]
+        [Argument ("-u")]
         public string Format;
 
-        [Argument ("grab", "get", "pull", "download")]
+        [Argument ("-dl", "--download")]
         public string Download;
 
-        [Argument ("send", "push", "upload")]
+        [Argument ("-ul", "--upload")]
         public string Upload;
 
-        [Argument ("from-file", "to-file")]
+        [Argument ("-o")]
         public string Path;
 
         public bool ShouldDownload {

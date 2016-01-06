@@ -84,6 +84,8 @@ namespace Codeaddicts.Lizard
             while (!Quit && Client.Connected) {
                 AcceptResponse ();
             }
+            if (EConnectionClosed != null)
+                EConnectionClosed (this, EventArgs.Empty);
             Dispose ();
         }
 
@@ -114,6 +116,7 @@ namespace Codeaddicts.Lizard
             Client.NoDelay = true;
             Client.Send (data);
             Client.NoDelay = false;
+            MessageHandler.WaitOne ();
         }
 
         void InitializeParameters (string host, int port, string user, string path, string password) {
