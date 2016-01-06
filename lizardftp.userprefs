@@ -1,6 +1,13 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="lizardcli\lizardcli.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="liblizard\DataStream.cs">
+    <Files>
+      <File FileName="lizardcli\Program.cs" Line="40" Column="1" />
+      <File FileName="liblizard\FtpClient.Functions.cs" Line="48" Column="4" />
+      <File FileName="liblizard\DataStream.cs" Line="6" Column="29" />
+      <File FileName="liblizard\FtpClient.Raw.cs" Line="94" Column="29" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

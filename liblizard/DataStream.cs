@@ -8,33 +8,39 @@ namespace Codeaddicts.Lizard
     public class DataStream : IDisposable
     {
         public TcpClient Client;
-        public NetworkStream Stream { get; private set; }
 
-        private IPEndPoint _endPoint;
-        public IPEndPoint EndPoint
-        {
-            get
-            {
+        NetworkStream stream;
+        public NetworkStream Stream {
+            get {
+                if (_endPoint == null)
+                    throw new Exception ("Datastream not yet open");
+                return stream;
+            }
+            private set {
+                stream = value;
+            }
+        }
+
+        IPEndPoint _endPoint;
+        public IPEndPoint EndPoint {
+            get {
                 return _endPoint;
             }
-            set
-            {
-                if (value == null) return;
+            set {
+                if (value == null)
+                    return;
 
                 _endPoint = value;
-                Client = new TcpClient();
+                Client = new TcpClient ();
 
-                try
-                {
-                    Client.Connect(EndPoint);
-                    Stream = Client.GetStream();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
+                try {
+                    Client.Connect (EndPoint);
+                    Stream = Client.GetStream ();
+                } catch (Exception e) {
+                    Console.WriteLine (e.Message);
                     Client = null;
                     Stream = null;
-                    EndPoint = null;
+                    _endPoint = null;
                 }
             }
         }

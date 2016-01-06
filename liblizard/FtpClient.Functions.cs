@@ -19,23 +19,22 @@ namespace Codeaddicts.Lizard
             Login (User, Password);
         }
 
-        public void ConnectPassive()
-        {
+        public void ConnectPassive () {
             // Send PASV Command, wait for Answer, parse Answer
             PASV ();
         }
 
         public void UploadFile (string fileName) {
             // Does the File even exist?
-            if (!File.Exists (fileName)) throw new FileNotFoundException (fileName);
+            if (!File.Exists (fileName))
+                throw new FileNotFoundException (fileName);
 
             // Initialize File Transfer
-            STOR(fileName);
+            STOR (fileName);
 
             // Read Bytes, then send them and close Stream
-            using (var fileStream = File.OpenRead(fileName))
-            {
-                fileStream.CopyTo(Data.Stream, 512);
+            using (var fileStream = File.OpenRead (fileName)) {
+                fileStream.CopyTo (Data.Stream, 512);
             }
             Data.Close ();
 
@@ -43,44 +42,39 @@ namespace Codeaddicts.Lizard
             MessageHandler.WaitOne ();
         }
 
-        public void DownloadFile(string fileName)
-        {
+        public void DownloadFile (string fileName) {
             // Intitialize File Transfer
-            RETR(fileName);
+            RETR (fileName);
 
             // Read Bytes from Stream, save them to disk
-            using (var fileStream = File.Create(fileName))
-            {
-                Data.Stream.CopyTo(fileStream, 512);
+            using (var fileStream = File.OpenRead (fileName)) {
+                Data.Stream.CopyTo (fileStream, 512);
             }
 
             // Wait for Confirmation on File Transfer. Stream will be closed by the Server!
-            MessageHandler.WaitOne();
+            MessageHandler.WaitOne ();
         }
 
-        public FtpFile GetFileInfo(string fileName)
-        {
-            LIST(fileName);            
-            return FtpFile.Parse(new StreamReader(Data.Stream).ReadLine());
+        public FtpFile GetFileInfo (string fileName) {
+            LIST (fileName);            
+            return FtpFile.Parse (new StreamReader (Data.Stream).ReadLine ());
         }
 
-        public IEnumerable<FtpItem> GetDirectoryContents()
-        {
+        public IEnumerable<FtpItem> GetDirectoryContents () {
             // Intitialize File Transfer
             LIST ();
 
             // Read Bytes from Stream, save them to disk
-            var result = new StreamReader(Data.Stream).ReadToEnd();
-            foreach (string line in result.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                if (line.StartsWith("d"))
-                    yield return FtpDirectory.Parse(line);
+            var result = new StreamReader (Data.Stream).ReadToEnd ();
+            foreach (string line in result.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)) {
+                if (line.StartsWith ("d"))
+                    yield return FtpDirectory.Parse (line);
                 else
-                    yield return FtpFile.Parse(line);
+                    yield return FtpFile.Parse (line);
             }
 
             // Wait for Confirmation on File Transfer. Stream will be closed by the Server!
-            MessageHandler.WaitOne();
+            MessageHandler.WaitOne ();
         }
     }
 }

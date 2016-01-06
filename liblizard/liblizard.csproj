@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>liblizard</RootNamespace>
+    <RootNamespace>Codeaddicts.Lizard</RootNamespace>
     <AssemblyName>liblizard</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
