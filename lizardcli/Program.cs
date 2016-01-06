@@ -21,12 +21,13 @@ namespace Codeaddicts.Lizard.Cli
 
         public void Main () {
             Client.Connect ();
-            Client.Login ();
+            Client.Login();
+
+            Client.TYPE('a');
+
             Client.ConnectPassive();
-            foreach (FtpItem x in Client.GetDirectoryContents())
-            {
-                Console.WriteLine("{0}:{1}", x.Name, x.Permission.ToString());
-            }
+            Client.DownloadFile("100mphs.jpg");
+
             Client.Wait ();
         }
     }

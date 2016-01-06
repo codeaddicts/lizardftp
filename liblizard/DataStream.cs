@@ -8,8 +8,36 @@ namespace Codeaddicts.Lizard
     public class DataStream : IDisposable
     {
         public TcpClient Client;
-        public IPEndPoint EndPoint { get; set; }
         public NetworkStream Stream { get; private set; }
+
+        private IPEndPoint _endPoint;
+        public IPEndPoint EndPoint
+        {
+            get
+            {
+                return _endPoint;
+            }
+            set
+            {
+                if (value == null) return;
+
+                _endPoint = value;
+                Client = new TcpClient();
+
+                try
+                {
+                    Client.Connect(EndPoint);
+                    Stream = Client.GetStream();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Client = null;
+                    Stream = null;
+                    EndPoint = null;
+                }
+            }
+        }
 
         public DataStream () {
             Client = null;
@@ -17,32 +45,11 @@ namespace Codeaddicts.Lizard
             EndPoint = null;
         }
 
-        public void Connect(IPEndPoint ep = null)
-        {
-            if (ep != null) EndPoint = ep;
-            if (EndPoint == null) throw new Exception("Invalid Arguments");
-
-            if (Client != null) {
-                Stream.Dispose ();
-                Client = null;
-            }
-
-            Client = new TcpClient ();
-
-            try {
-                Client.Connect (EndPoint);
-                Stream = Client.GetStream();
-            } catch (Exception e) {
-                Console.WriteLine (e.Message);
-                Client = null;
-                return;
-            }
-        }
-
         public void Close () {
             Stream.Dispose ();
             Client = null;
             EndPoint = null;
+            Stream = null;
         }
 
         public void Send (byte[] data) {

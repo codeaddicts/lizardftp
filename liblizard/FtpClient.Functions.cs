@@ -23,9 +23,6 @@ namespace Codeaddicts.Lizard
         {
             // Send PASV Command, wait for Answer, parse Answer
             PASV ();
-
-            // Connect the DataStream
-            Data.Connect ();
         }
 
         public void UploadFile (string fileName) {
@@ -43,7 +40,7 @@ namespace Codeaddicts.Lizard
             Data.Close ();
 
             // Wait for Confirmation on File Transfer
-            MessageHandled.WaitOne ();
+            MessageHandler.WaitOne ();
         }
 
         public void DownloadFile(string fileName)
@@ -58,13 +55,19 @@ namespace Codeaddicts.Lizard
             }
 
             // Wait for Confirmation on File Transfer. Stream will be closed by the Server!
-            MessageHandled.WaitOne();
+            MessageHandler.WaitOne();
         }
 
-        public IEnumerable<FtpItem> GetDirectoryContents(string location = "")
+        public FtpFile GetFileInfo(string fileName)
+        {
+            LIST(fileName);            
+            return FtpFile.Parse(new StreamReader(Data.Stream).ReadLine());
+        }
+
+        public IEnumerable<FtpItem> GetDirectoryContents()
         {
             // Intitialize File Transfer
-            LIST (location);
+            LIST ();
 
             // Read Bytes from Stream, save them to disk
             var result = new StreamReader(Data.Stream).ReadToEnd();
@@ -77,7 +80,7 @@ namespace Codeaddicts.Lizard
             }
 
             // Wait for Confirmation on File Transfer. Stream will be closed by the Server!
-            MessageHandled.WaitOne();
+            MessageHandler.WaitOne();
         }
     }
 }
