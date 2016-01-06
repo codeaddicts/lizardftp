@@ -25,16 +25,20 @@ namespace Codeaddicts.Lizard
         }
 
         public void UploadFile (string fileName) {
-            // Does the File even exist?
+            
+            // Check if the file exists
             if (!File.Exists (fileName))
                 throw new FileNotFoundException (fileName);
 
-            // Initialize File Transfer
+            // Initialize file transfer
             STOR (fileName);
 
-            // Read Bytes, then send them and close Stream
-            using (var fileStream = File.OpenRead (fileName)) {
-                fileStream.CopyTo (Data.Stream, 512);
+            using (var file = File.OpenRead (fileName))
+            using (var reader = new BinaryReader (file)) {
+                while (reader.BaseStream.Position < reader.BaseStream.Length) {
+                    var buf = reader.ReadBytes (512);
+                    Data.Send (buf);
+                }
             }
             Data.Close ();
 
@@ -43,7 +47,8 @@ namespace Codeaddicts.Lizard
         }
 
         public void DownloadFile (string fileName) {
-            // Intitialize File Transfer
+            
+            // Intitialize file transfer
             RETR (fileName);
 
             // Read Bytes from Stream, save them to disk
