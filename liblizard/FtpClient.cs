@@ -111,15 +111,8 @@ namespace Codeaddicts.Lizard
         }
 
         void SendRaw (byte[] data) {
-            SocketError error;
             Client.NoDelay = true;
-            Client.Send (
-                buffer: data,
-                offset: 0,
-                size: data.Length,
-                socketFlags: SocketFlags.None,
-                errorCode: out error
-            );
+            Client.Send (data);
             Client.NoDelay = false;
         }
 
