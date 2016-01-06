@@ -51,9 +51,13 @@ namespace Codeaddicts.Lizard
             // Intitialize file transfer
             RETR (fileName);
 
-            // Read Bytes from Stream, save them to disk
-            using (var fileStream = File.OpenRead (fileName)) {
-                Data.Stream.CopyTo (fileStream, 512);
+            using (var file = File.Create (fileName))
+            using (var writer = new BinaryWriter (file)) {
+                var buf = new byte[512];
+                while (Data.Stream.Read (buf, 0, 512) > 0) {
+                    writer.Write (buf);
+                }
+                writer.Flush ();
             }
 
             // Wait for Confirmation on File Transfer. Stream will be closed by the Server!
