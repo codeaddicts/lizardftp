@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}</ProjectGuid>
+    <ProjectGuid>{5BE4EE48-9B3D-4B05-BE33-CD0A692797CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Codeaddicts.Lizard</RootNamespace>
     <AssemblyName>liblizard</AssemblyName>
