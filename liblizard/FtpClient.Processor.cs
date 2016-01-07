@@ -5,7 +5,7 @@ namespace Codeaddicts.Lizard
 {
     public partial class FtpClient
     {
-        void ProcessMessage (int code, bool dashed, string message, string raw) {
+        void ProcessMessage (int code, bool dashed, string message, string raw, bool suppressSet = false) {
             LogMessage (code, message);
             switch (code) {
             case 110:
@@ -31,10 +31,11 @@ namespace Codeaddicts.Lizard
                 // Response to FEAT
                 if (Regex.IsMatch(raw, RegexConstants.REGEX_FEAT_BEGIN))
                 {
+                    suppressSet = true;
                     string line = ClientReader.ReadLine ();
                     while (!Regex.IsMatch(line, RegexConstants.REGEX_FEAT_END))
                     {
-                        ProcessMessage (000, false, line, line);
+                        ProcessMessage (000, false, line, line, true);
                         line = ClientReader.ReadLine ();
                     }
                     AcceptResponse (line);
@@ -148,7 +149,8 @@ namespace Codeaddicts.Lizard
             }
 
             // Allow the operation to continue
-            MessageHandler.Set ();
+            if (!suppressSet)
+                MessageHandler.Set ();
         }
     }
 }
