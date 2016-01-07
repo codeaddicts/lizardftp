@@ -4,6 +4,10 @@ namespace Codeaddicts.Lizard
 {
     public partial class FtpClient
     {
+        public void ABOR () {
+            Send ("ABOR");
+        }
+
         public void CDUP () {
             Send ("CDUP");
         }

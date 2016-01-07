@@ -50,7 +50,7 @@ namespace Codeaddicts.Lizard
                 // Help message
                 break;
             case 215:
-                // ???
+                // System type
                 break;
             case 220:
                 // Service ready for new user
