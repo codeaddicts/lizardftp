@@ -28,12 +28,25 @@ namespace Codeaddicts.Lizard.Cli
             // Subscribe to events
             Client.EConnectionClosed += QuitAndExit;
 
-            // Establish connection login, enter passive mode
+            // Establish connection
             Client.Connect ();
+
+            // Login
             Client.Login ();
+
+            // Retrieve OS information
+            Client.SYST ();
+
+            // Get current directory
+            Client.PWD ();
+
+            // Retrieve feature information
+            Client.FEAT ();
+
+            // Enter passive transfer mode
             Client.ConnectPassive ();
 
-            // Download if wanted
+            // Download if -dl or --download was specified
             if (Options.ShouldDownload) {
                 bool downloadFinished = false;
                 EventHandler handler = null;
@@ -46,9 +59,24 @@ namespace Codeaddicts.Lizard.Cli
                 while (!downloadFinished) { }
             }
 
+            // Upload if -ul or --upload was specified
+            if (Options.ShouldUpload) {
+                // TODO: Write the actual code
+            }
+
+            // Run tests
+            // TODO: Write actual tests using NUnit
+            TestDownloadAbortion ();
+
+            // Quit and exit
             QuitAndExit (null, null);
         }
 
+        void TestDownloadAbortion () {
+            // TODO: Add async downloading ability
+        }
+
+        // Initiate a file download
         void Download () {
             
             // Create variables to hold path data
