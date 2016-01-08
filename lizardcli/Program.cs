@@ -68,9 +68,6 @@ namespace Codeaddicts.Lizard.Cli
             // TODO: Write actual tests using NUnit
             TestDownloadAbortion ();
 
-            Console.WriteLine ("Sleeping for 500ms");
-            Thread.Sleep (500);
-
             // Quit and exit
             QuitAndExit (null, null);
         }

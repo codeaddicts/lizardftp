@@ -12,60 +12,61 @@ namespace Codeaddicts.Lizard
         NetworkStream stream;
         public NetworkStream Stream {
             get {
-                if (_endPoint == null)
+                if (endpoint == null)
                     throw new Exception ("Datastream not yet open");
                 return stream;
             }
-            private set {
-                stream = value;
-            }
         }
 
-        IPEndPoint _endPoint;
+        IPEndPoint endpoint;
         public IPEndPoint EndPoint {
             get {
-                return _endPoint;
+                return endpoint;
             }
             set {
                 if (value == null)
                     return;
+                endpoint = value;
+                Connect ();
+            }
+        }
 
-                _endPoint = value;
-                Client = new TcpClient ();
+        public bool Connected { get { return stream != null; } }
 
-                try {
-                    Client.Connect (EndPoint);
-                    Stream = Client.GetStream ();
-                } catch (Exception e) {
-                    Console.WriteLine (e.Message);
-                    Client = null;
-                    Stream = null;
-                    _endPoint = null;
-                }
+        void Connect () {
+            Client = new TcpClient ();
+            try {
+                Client.Connect (EndPoint);
+                stream = Client.GetStream ();
+            } catch (Exception e) {
+                Console.WriteLine (e.Message);
+                Client = null;
+                stream = null;
+                endpoint = null;
             }
         }
 
         public DataStream () {
             Client = null;
-            Stream = null;
-            EndPoint = null;
+            stream = null;
+            endpoint = null;
         }
 
         public void Close () {
-            Stream.Dispose ();
+            stream.Dispose ();
             Client = null;
-            EndPoint = null;
-            Stream = null;
+            endpoint = null;
+            stream = null;
         }
 
         public void Send (byte[] data) {
-            Stream.Write (data, 0, data.Length);
+            stream.Write (data, 0, data.Length);
         }
 
         #region IDisposable implementation
 
         public void Dispose () {
-            Stream.Dispose ();
+            Close ();
         }
 
         #endregion

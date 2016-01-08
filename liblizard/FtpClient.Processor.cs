@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace Codeaddicts.Lizard
 {
@@ -29,6 +30,7 @@ namespace Codeaddicts.Lizard
             case 211:
                 // System status, or system help reply
                 // Response to FEAT
+                suppressSet = true;
                 if (Regex.IsMatch(raw, RegexConstants.REGEX_FEAT_BEGIN))
                 {
                     suppressSet = true;
@@ -69,7 +71,14 @@ namespace Codeaddicts.Lizard
                 break;
             case 227:
                 // Entering passive mode (h1,h2,h3,h4,p1,p2)
-                Data.EndPoint = ParsePasvResponse (message);
+                IPEndPoint endpoint = null;
+                try {
+                    endpoint = ParsePasvResponse (message);
+                } catch (Exception e) {
+                    LogMessage (000, string.Format ("Error parsing endpoint: {0}", e.Message));
+                }
+                if (endpoint != null)
+                    Data.EndPoint = ParsePasvResponse (message);
                 break;
             case 230:
                 // User logged in, proceed
