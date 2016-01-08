@@ -7,7 +7,21 @@ namespace Codeaddicts.Lizard
     public partial class FtpClient
     {
         void ProcessMessage (int code, bool dashed, string message, string raw, bool suppressSet = false) {
+
+            // Reset state
+            State = ClientState.None;
+
+            // Log the message
             LogMessage (code, message);
+
+            // Set flags indicating whether the response
+            // indicates success or failure
+            if (code.IsInRange (200, 300))
+                State |= ClientState.GoodResponse;
+            else if (code.IsInRange (400, 600))
+                State |= ClientState.BadResponse;
+
+            // Check the message code and act accordingly
             switch (code) {
             case 110:
                 // Restart marker reply
@@ -16,7 +30,7 @@ namespace Codeaddicts.Lizard
                 // Service ready in nnn minutes
                 break;
             case 125:
-                // Data connection already open; traClientStreamfer starting
+                // Data connection already open; transfer starting
                 break;
             case 150:
                 // File status okay; about to open data connection
@@ -91,7 +105,8 @@ namespace Codeaddicts.Lizard
                 break;
             case 331:
                 // User name okay, need password
-                Quit |= string.IsNullOrEmpty (Password);
+                if (string.IsNullOrEmpty (Password))
+                    State |= ClientState.ExitRequested;
                 break;
             case 332:
                 // Need account for login
@@ -101,7 +116,7 @@ namespace Codeaddicts.Lizard
             case 421:
                 // Service not available, closing control connection
                 // Also: Login time exceeded
-                Quit = true;
+                State |= ClientState.ExitRequested;
                 break;
             case 425:
                 // Can't open data connection

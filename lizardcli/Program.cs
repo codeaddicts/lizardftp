@@ -4,8 +4,7 @@ using System.IO;
 using System.Linq;
 using Codeaddicts.libArgument;
 using Codeaddicts.Lizard;
-using Codeaddicts.Lizard.FtpItems;
-using System.Threading;
+using Codeaddicts.Lizard.Raw;
 
 namespace Codeaddicts.Lizard.Cli
 {

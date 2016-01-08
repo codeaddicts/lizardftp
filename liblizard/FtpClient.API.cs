@@ -1,18 +1,82 @@
-﻿using Codeaddicts.Lizard.FtpItems;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Codeaddicts.Lizard.FtpItems;
+using Codeaddicts.Lizard.Raw;
 
 namespace Codeaddicts.Lizard
 {
     public partial class FtpClient
     {
+        public bool ExitRequested {
+            get { return State.HasFlag (ClientState.ExitRequested); }
+        }
+
+        public bool GoodResponse {
+            get { return State.HasFlag (ClientState.GoodResponse); }
+        }
+
+        public bool BadResponse {
+            get { return State.HasFlag (ClientState.BadResponse); }
+        }
+
+        public void Connect () {
+            Client = new Socket (
+                addressFamily: AddressFamily.InterNetwork,
+                socketType: SocketType.Stream,
+                protocolType: ProtocolType.Tcp
+            );
+            Client.Connect (Host, Port);
+            Task.Factory.StartNew (StartListening);
+        }
+
+        public void Connect (
+            string host,
+            int port = DEFAULT_PORT,
+            string user = DEFAULT_USER,
+            string password = DEFAULT_PASSWORD,
+            string path = DEFAULT_PATH) {
+            InitializeParameters (
+                host: host,
+                port: port,
+                user: user,
+                path: path,
+                password: password
+            );
+            Connect ();
+        }
+
+        public void Connect (string user, string password = DEFAULT_PASSWORD) {
+            Connect (
+                host: Host,
+                port: Port,
+                user: user,
+                password: password
+            );
+        }
+
+        public void Send (string format, params object[] args) {
+            var text = string.Format (
+                format: "{0}\r\n",
+                arg0: string.Format (format, args)
+            );
+            var data = Encoding.ASCII.GetBytes (text);
+            SendRaw (data);
+        }
+
+        public void Wait () {
+            while (!ExitRequested && Client.Connected)
+                Thread.Sleep (1);
+        }
+
         public void Login (string user, string password) {
-            USER (user);
+            this.USER (user);
             if (!string.IsNullOrEmpty (password))
-                PASS (password);
+                this.PASS (password);
         }
 
         public void Login () {
@@ -21,7 +85,7 @@ namespace Codeaddicts.Lizard
 
         public void ConnectPassive () {
             // Send PASV Command, wait for Answer, parse Answer
-            PASV ();
+            this.PASV ();
         }
 
         public void UploadFile (string fileName) {
@@ -31,7 +95,7 @@ namespace Codeaddicts.Lizard
                 throw new FileNotFoundException (fileName);
 
             // Initialize file transfer
-            STOR (fileName);
+            this.STOR (fileName);
 
             using (var file = File.OpenRead (fileName))
             using (var reader = new BinaryReader (file)) {
@@ -52,7 +116,7 @@ namespace Codeaddicts.Lizard
                 localfilename = remotefilename;
             
             // Intitialize file transfer
-            RETR (remotefilename);
+            this.RETR (remotefilename);
 
             using (var file = File.Create (localfilename))
             using (var writer = new BinaryWriter (file)) {
@@ -68,13 +132,13 @@ namespace Codeaddicts.Lizard
         }
 
         public FtpFile GetFileInfo (string fileName) {
-            LIST (fileName);            
+            this.LIST (fileName);            
             return FtpFile.Parse (new StreamReader (Data.Stream).ReadLine ());
         }
 
         public IEnumerable<FtpItem> GetDirectoryContents () {
             // Intitialize File Transfer
-            LIST ();
+            this.LIST ();
 
             // Read Bytes from Stream, save them to disk
             var result = new StreamReader (Data.Stream).ReadToEnd ();

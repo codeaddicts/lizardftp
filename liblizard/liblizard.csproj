@@ -53,10 +53,8 @@
     <Compile Include="DataStream.cs" />
     <Compile Include="FtpClient.cs" />
     <Compile Include="FtpClient.Events.cs" />
-    <Compile Include="FtpClient.Functions.cs" />
     <Compile Include="FtpClient.Parsers.cs" />
     <Compile Include="FtpClient.Processor.cs" />
-    <Compile Include="FtpClient.Raw.cs" />
     <Compile Include="RegexConstants.cs" />
     <Compile Include="UriParser.cs" />
     <Compile Include="FtpItems\FtpDirectory.cs" />
@@ -64,10 +62,17 @@
     <Compile Include="FtpItems\FtpItem.cs" />
     <Compile Include="FtpItems\FtpPermission.cs" />
     <Compile Include="SmartPath.cs" />
+    <Compile Include="FtpClient.Base.cs" />
+    <Compile Include="FtpClient.API.cs" />
+    <Compile Include="Extensions\FtpClient.Raw.cs" />
+    <Compile Include="Extensions\IntExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>
