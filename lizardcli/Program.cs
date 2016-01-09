@@ -24,9 +24,6 @@ namespace Codeaddicts.Lizard.Cli
         }
 
         public void Main () {
-<<<<<<< HEAD
-            
-=======
 
             /*
              * TODO:
@@ -49,7 +46,6 @@ namespace Codeaddicts.Lizard.Cli
              * - Watch kittens play. Everyone likes to watch kittens play.
              */
 
->>>>>>> origin/master
             // Subscribe to events
             Client.ConnectionClosed += QuitAndExit;
 
