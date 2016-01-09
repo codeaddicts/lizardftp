@@ -25,7 +25,7 @@ namespace Codeaddicts.Lizard.Cli
         public void Main () {
 
             // Subscribe to events
-            Client.EConnectionClosed += QuitAndExit;
+            Client.ConnectionClosed += QuitAndExit;
 
             // Establish connection
             Client.Connect ();
@@ -50,10 +50,10 @@ namespace Codeaddicts.Lizard.Cli
                 bool downloadFinished = false;
                 EventHandler handler = null;
                 handler = (sender, e) => {
-                    Client.EDataConnectionClosed -= handler;
+                    Client.DataConnectionClosed -= handler;
                     downloadFinished = true;
                 };
-                Client.EDataConnectionClosed += handler;
+                Client.DataConnectionClosed += handler;
                 Download ();
                 while (!downloadFinished) { }
             }

@@ -13,8 +13,8 @@ namespace Codeaddicts.Lizard
             ClientReader = new StreamReader (ClientStream, Encoding.ASCII, false);
             while (!ExitRequested && Client.Connected)
                 AcceptResponse ();
-            if (EConnectionClosed != null)
-                EConnectionClosed (this, EventArgs.Empty);
+            if (ConnectionClosed != null)
+                ConnectionClosed (this, EventArgs.Empty);
             Dispose ();
         }
 
@@ -24,7 +24,7 @@ namespace Codeaddicts.Lizard
             int code;
             bool dash;
             string message;
-            ParseResponse (line, out code, out dash, out message);
+            Parsers.ParseResponse (line, out code, out dash, out message);
             ProcessMessage (code, dash, message, line);
         }
 

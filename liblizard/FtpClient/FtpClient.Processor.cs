@@ -45,11 +45,11 @@ namespace Codeaddicts.Lizard
                 // System status, or system help reply
                 // Response to FEAT
                 suppressSet = true;
-                if (Regex.IsMatch(raw, RegexConstants.REGEX_FEAT_BEGIN))
+                if (Regex.IsMatch(raw, RegexConstants.FEAT_Begin))
                 {
                     suppressSet = true;
                     string line = ClientReader.ReadLine ();
-                    while (!Regex.IsMatch(line, RegexConstants.REGEX_FEAT_END))
+                    while (!Regex.IsMatch(line, RegexConstants.FEAT_End))
                     {
                         ProcessMessage (000, false, line, line, true);
                         line = ClientReader.ReadLine ();
@@ -80,19 +80,19 @@ namespace Codeaddicts.Lizard
                 break;
             case 226:
                 // Closing data connection
-                if (EDataConnectionClosed != null)
-                    EDataConnectionClosed (this, EventArgs.Empty);
+                if (DataConnectionClosed != null)
+                    DataConnectionClosed (this, EventArgs.Empty);
                 break;
             case 227:
                 // Entering passive mode (h1,h2,h3,h4,p1,p2)
                 IPEndPoint endpoint = null;
                 try {
-                    endpoint = ParsePasvResponse (message);
+                    endpoint = Parsers.ParsePasvResponse (message);
                 } catch (Exception e) {
                     LogMessage (000, string.Format ("Error parsing endpoint: {0}", e.Message));
                 }
                 if (endpoint != null)
-                    Data.EndPoint = ParsePasvResponse (message);
+                    Data.EndPoint = endpoint;
                 break;
             case 230:
                 // User logged in, proceed
