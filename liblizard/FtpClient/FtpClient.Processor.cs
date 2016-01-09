@@ -6,7 +6,11 @@ namespace Codeaddicts.Lizard
 {
     public partial class FtpClient
     {
-        void ProcessMessage (int code, bool dashed, string message, string raw, bool suppressSet = false) {
+        void ProcessMessage (FtpResponse response) {
+            ProcessMessage (response.Code, response.Multiline, response.Message, response.Raw);
+        }
+
+        void ProcessMessage (int code, bool multiline, string message, string raw, bool suppressSet = false) {
 
             // Reset state
             State = ClientState.None;
@@ -44,12 +48,10 @@ namespace Codeaddicts.Lizard
             case 211:
                 // System status, or system help reply
                 // Response to FEAT
-                suppressSet = true;
-                if (Regex.IsMatch(raw, RegexConstants.FEAT_Begin))
+                if (Regex.IsMatch(raw, RegexConstants.Multiline_Begin))
                 {
-                    suppressSet = true;
                     string line = ClientReader.ReadLine ();
-                    while (!Regex.IsMatch(line, RegexConstants.FEAT_End))
+                    while (!Regex.IsMatch(line, RegexConstants.Multiline_End))
                     {
                         ProcessMessage (000, false, line, line, true);
                         line = ClientReader.ReadLine ();

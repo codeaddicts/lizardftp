@@ -24,6 +24,27 @@ namespace Codeaddicts.Lizard.Cli
 
         public void Main () {
 
+            /*
+             * TODO:
+             * - Add a MessageQueue or something similar to allow the final user to grab the results sent by the server.
+             * - Finalize Message Processing: How will the user be informed of a failed login without the need to check the Messages? 
+             *   Possibly implement TAP for this, so the use of await ftpClient.Messages.GrabLatest() will become possible - otherwise, better solutions?
+             * - Add better Debugging. LogMessage will NOT do.
+             * - Maybe create a custom class for the CommandStream aswell?
+             * - Why isn't the Processor a custom class which can be initialized by handing it the Command Stream?
+             * - Fix Multiline Responses somehow: 211 is not the only code which needs to be checked. Possible check before switch(code).
+             * - Ftp-Welcome-Message can be Multiline. Will fuck the system.
+             * - Rework Multiline-Handling altogether, remove the need to be able to skip the WaitOne on the Processing.
+             * - Does the Processor really need the Raw Response? Possibly remove that.
+             * - Create advanced server side operation wrappers (@NikxDa)
+             * - Add working Events
+             * - Add TAP Down/Uploads
+             * - Somehow prevent multiple async transmissions, because async actually isnt really able to be used async-ly in this case. It sucks, I know.
+             * - PORT-Command ffs
+             * - Check the list of commands remaining, try ABOR command again, otherwise implement DataStream Abortion (ha!).
+             * - Watch kittens play. Everyone likes to watch kittens play.
+             */
+
             // Subscribe to events
             Client.ConnectionClosed += QuitAndExit;
 
@@ -65,7 +86,7 @@ namespace Codeaddicts.Lizard.Cli
 
             // Run tests
             // TODO: Write actual tests using NUnit
-            TestDownloadAbortion ();
+            Console.ReadLine ();
 
             // Quit and exit
             QuitAndExit (null, null);

@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FtpClient\FtpResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FtpItems\FtpDirectory.cs" />
     <Compile Include="FtpItems\FtpFile.cs" />
@@ -73,9 +74,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="FtpClient\" />
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
