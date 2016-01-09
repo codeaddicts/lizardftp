@@ -22,11 +22,7 @@ namespace Codeaddicts.Lizard
         void AcceptResponse (string line = null) {
             if (line == null)
                 line = ClientReader.ReadLine ();
-            int code;
-            bool dash;
-            string message;
-            Parsers.ParseResponse (line, out code, out dash, out message);
-            ProcessMessage (code, dash, message, line);
+            ProcessMessage (new FtpResponse (line));
         }
 
         void LogMessage (int code, string message) {

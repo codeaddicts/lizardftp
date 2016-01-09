@@ -1,32 +1,32 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Visual Studio 2012
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lizardcli", "lizardcli\lizardcli.csproj", "{FFA6DE85-3353-4770-8B95-4B4E89742227}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "liblizard", "liblizard\liblizard.csproj", "{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lizardgtk", "lizardgtk\lizardgtk.csproj", "{31988FC9-A4FC-4F7A-9176-B19F339267A5}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Debug|x86.ActiveCfg = DebugTest|x86
-		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Debug|x86.Build.0 = DebugTest|x86
-		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Release|x86.ActiveCfg = Release|x86
-		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Release|x86.Build.0 = Release|x86
+		{31988FC9-A4FC-4F7A-9176-B19F339267A5}.Debug|x86.ActiveCfg = Debug|x86
+		{31988FC9-A4FC-4F7A-9176-B19F339267A5}.Debug|x86.Build.0 = Debug|x86
+		{31988FC9-A4FC-4F7A-9176-B19F339267A5}.Release|x86.ActiveCfg = Release|x86
+		{31988FC9-A4FC-4F7A-9176-B19F339267A5}.Release|x86.Build.0 = Release|x86
 		{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}.Debug|x86.Build.0 = Debug|Any CPU
 		{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}.Release|x86.ActiveCfg = Release|Any CPU
 		{86A2971E-FA46-4F38-84FC-0A9A45B0ECB5}.Release|x86.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Debug|x86.ActiveCfg = DebugTest|x86
+		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Debug|x86.Build.0 = DebugTest|x86
+		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Release|x86.ActiveCfg = Release|x86
+		{FFA6DE85-3353-4770-8B95-4B4E89742227}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
@@ -49,5 +49,11 @@ Global
 		$0.DotNetNamingPolicy = $5
 		$5.DirectoryNamespaceAssociation = None
 		$5.ResourceNamePolicy = FileFormatDefault
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

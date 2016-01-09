@@ -6,12 +6,16 @@ namespace Codeaddicts.Lizard
 {
     public partial class FtpClient
     {
-        void ProcessMessage (FtpResponse response) {
-            ProcessMessage (response.Code, response.Multiline, response.Message, response.Raw);
-        }
+        void ProcessMessage (FtpResponse response, bool suppressSet = false) {
 
-        void ProcessMessage (int code, bool multiline, string message, string raw, bool suppressSet = false) {
-            
+            var code = response.Code;
+            var multiline = response.Multiline;
+            var message = response.Message;
+            var raw = response.Raw;
+
+            if (ResponseReceived != null)
+                ResponseReceived (this, new ResponseReceivedEventArgs (response));
+
             // Log the message
             LogMessage (code, message);
 
@@ -51,7 +55,7 @@ namespace Codeaddicts.Lizard
                     string line = ClientReader.ReadLine ();
                     while (!Regex.IsMatch(line, RegexConstants.Multiline_End))
                     {
-                        ProcessMessage (000, false, line, line, true);
+                        ProcessMessage (new FtpResponse (000, line, false), true);
                         line = ClientReader.ReadLine ();
                     }
                     AcceptResponse (line);

@@ -31,7 +31,7 @@ namespace Codeaddicts.Lizard
                 protocolType: ProtocolType.Tcp
             );
             Client.Connect (Host, Port);
-            Client.NoDelay = true;
+
             Task.Factory.StartNew (StartListening);
             //MessageHandler.WaitOne ();
         }

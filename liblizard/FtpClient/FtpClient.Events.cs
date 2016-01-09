@@ -5,6 +5,8 @@ namespace Codeaddicts.Lizard
 {
     public partial class FtpClient
     {
+        public event EventHandler<ResponseReceivedEventArgs> ResponseReceived;
+
         public event EventHandler ConnectionClosed;
         public event EventHandler DataConnectionClosed;
 
