@@ -11,19 +11,17 @@ namespace Codeaddicts.Lizard
         }
 
         void ProcessMessage (int code, bool multiline, string message, string raw, bool suppressSet = false) {
-
-            // Reset state
-            State = ClientState.None;
-
+            
             // Log the message
             LogMessage (code, message);
 
             // Set flags indicating whether the response
             // indicates success or failure
-            if (code.IsInRange (200, 300))
-                State |= ClientState.GoodResponse;
+            var state = ClientState.None;
+            if (code.IsInRange (200, 400))
+                state |= ClientState.GoodResponse;
             else if (code.IsInRange (400, 600))
-                State |= ClientState.BadResponse;
+                state |= ClientState.BadResponse;
 
             // Check the message code and act accordingly
             switch (code) {
@@ -73,6 +71,9 @@ namespace Codeaddicts.Lizard
                 break;
             case 220:
                 // Service ready for new user
+                //if (ServiceReady)
+                //	suppressSet = true;
+                //ServiceReady = true;
                 break;
             case 221:
                 // Service closing control connection
@@ -108,7 +109,7 @@ namespace Codeaddicts.Lizard
             case 331:
                 // User name okay, need password
                 if (string.IsNullOrEmpty (Password))
-                    State |= ClientState.ExitRequested;
+                    state |= ClientState.ExitRequested;
                 break;
             case 332:
                 // Need account for login
@@ -118,7 +119,7 @@ namespace Codeaddicts.Lizard
             case 421:
                 // Service not available, closing control connection
                 // Also: Login time exceeded
-                State |= ClientState.ExitRequested;
+                state |= ClientState.ExitRequested;
                 break;
             case 425:
                 // Can't open data connection
@@ -175,8 +176,11 @@ namespace Codeaddicts.Lizard
             }
 
             // Allow the operation to continue
-            if (!suppressSet)
+            CurrentState = state;
+            if (!suppressSet) {
                 MessageHandler.Set ();
+                MessageHandler.Reset ();
+            }
         }
     }
 }

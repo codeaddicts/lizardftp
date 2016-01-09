@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -33,10 +34,8 @@ namespace Codeaddicts.Lizard
         }
 
         void SendRaw (byte[] data) {
-            Client.NoDelay = true;
             Client.Send (data);
-            Client.NoDelay = false;
-            MessageHandler.WaitOne ();
+            var result = MessageHandler.WaitOne ();
         }
 
         void InitializeParameters (string host, int port, string user, string path, string password) {
@@ -45,9 +44,10 @@ namespace Codeaddicts.Lizard
             User = user;
             Path = path;
             Password = password;
-            MessageHandler = new AutoResetEvent (false);
+            ServiceReady = false;
+            MessageHandler = new ManualResetEvent (false);
             Data = new DataStream ();
-            State = ClientState.None;
+            CurrentState = ClientState.None;
         }
 
         void InitializeParameters (UriParser parser) {

@@ -53,7 +53,11 @@ namespace Codeaddicts.Lizard.Cli
             Client.Connect ();
 
             // Login
-            Client.Login ();
+            if (!Client.Login ()) {
+                Console.WriteLine ("Login failed (returned false)");
+                QuitAndExit (null, null);
+            } else
+                Console.WriteLine ("Login successful (returned true)");
 
             // Retrieve OS information
             Client.SYST ();
@@ -87,7 +91,7 @@ namespace Codeaddicts.Lizard.Cli
 
             // Run tests
             // TODO: Write actual tests using NUnit
-            Console.ReadLine ();
+            // Console.ReadLine ();
 
             // Quit and exit
             QuitAndExit (null, null);

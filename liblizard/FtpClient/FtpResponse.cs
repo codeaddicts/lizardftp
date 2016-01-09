@@ -7,16 +7,15 @@ namespace Codeaddicts.Lizard
 {
     public struct FtpResponse
     {
-        public FtpResponse (int code, string message, bool multiline) : this() {
+        public FtpResponse (int code, string message, bool multiline) : this () {
             Message = message;
             Code = code;
             Multiline = multiline;
 
             // Reconstruct Message, yay
-            Raw = String.Format ("{0}{1}{2}",
-                Code.ToString (),
-                (Multiline) ? "-" : " ",
-                Message);
+            Raw = string.Format ("{0}{1}{2}",
+                Code, Multiline ? "-" : " ", Message
+            );
         }
 
         public FtpResponse (string response) {
