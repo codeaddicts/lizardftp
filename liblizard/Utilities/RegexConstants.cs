@@ -6,8 +6,8 @@ namespace Codeaddicts.Lizard
     public static class RegexConstants
     {
         const string REGEX_FEAT_NO_FEATURES	= @"211 [a-zA-Z0-9]*";
-        const string REGEX_FEAT_BEGIN = @"211-[a-zA-Z0-9]*";
-        const string REGEX_FEAT_END = @"211 End";
+        const string REGEX_MULTILINE_BEGIN = @"[0-9]{3}-.+";
+        const string REGEX_MULTILINE_END = @"[0-9]{3} End";
         const string REGEX_PASV_PREPARE = @"(?<=\()((?:(?:[0-9]{1,3})(?:,)?){6})(?=\))";
         const string REGEX_LIST_PARSE = @"
         ^(?<perm>[drwx\-]{10})
@@ -24,12 +24,12 @@ namespace Codeaddicts.Lizard
             get { return Sanitize (REGEX_FEAT_NO_FEATURES); }
         }
 
-        public static string FEAT_Begin {
-            get { return Sanitize (REGEX_FEAT_BEGIN); }
+        public static string Multiline_Begin {
+            get { return Sanitize (REGEX_MULTILINE_BEGIN); }
         }
 
-        public static string FEAT_End {
-            get { return Sanitize (REGEX_FEAT_BEGIN); }
+        public static string Multiline_End {
+            get { return Sanitize (REGEX_MULTILINE_END); }
         }
 
         public static string PASV_Prepare {
