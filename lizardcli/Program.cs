@@ -5,6 +5,7 @@ using System.Linq;
 using Codeaddicts.libArgument;
 using Codeaddicts.Lizard;
 using Codeaddicts.Lizard.Raw;
+using System.Net;
 
 namespace Codeaddicts.Lizard.Cli
 {
@@ -23,6 +24,9 @@ namespace Codeaddicts.Lizard.Cli
         }
 
         public void Main () {
+<<<<<<< HEAD
+            
+=======
 
             /*
              * TODO:
@@ -45,6 +49,7 @@ namespace Codeaddicts.Lizard.Cli
              * - Watch kittens play. Everyone likes to watch kittens play.
              */
 
+>>>>>>> origin/master
             // Subscribe to events
             Client.ConnectionClosed += QuitAndExit;
 
