@@ -1,16 +1,6 @@
-﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="lizardgtk\lizardgtk.csproj">
+﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="lizardcli\lizardcli.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="lizardgtk\Program.cs">
-    <Files>
-      <File FileName="lizardcli\Program.cs" Line="94" Column="7" />
-      <File FileName="liblizard\FtpClient\FtpClient.Processor.cs" Line="76" Column="7" />
-      <File FileName="liblizard\FtpClient\FtpClient.cs" Line="32" Column="9" />
-      <File FileName="liblizard\FtpClient\FtpClient.Base.cs" Line="3" Column="17" />
-      <File FileName="liblizard\FtpClient\FtpClient.Abstractions.cs" Line="34" Column="4" />
-      <File FileName="lizardgtk\Program.cs" Line="12" Column="45" />
-      <File FileName="lizardgtk\MainWindow.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
