@@ -12,9 +12,10 @@ namespace Codeaddicts.Lizard
         [Flags]
         enum ClientState {
             None = 0,
-            ExitRequested = 1 << 0,
-            GoodResponse = 1 << 1,
-            BadResponse = 1 << 2
+            ExitRequested = 1 << 1,
+            GoodResponse = 1 << 2,
+            BadResponse = 1 << 3,
+            OperationFailed = 1 << 4,
         };
 
         // Constants

@@ -33,7 +33,7 @@ namespace Codeaddicts.Lizard
             Client.Connect (Host, Port);
 
             Task.Factory.StartNew (StartListening);
-            //MessageHandler.WaitOne ();
+            MessageHandler.WaitOne ();
         }
 
         public void Connect (

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -25,13 +24,12 @@ namespace Codeaddicts.Lizard
             ProcessMessage (new FtpResponse (line));
         }
 
-        void LogMessage (int code, string message) {
-            Console.WriteLine ("[{0:000}] {1}", code, message);
-        }
+        void LogMessage (int code, string message)
+            => Console.WriteLine ("[{0:000}] {1}", code, message);
 
         void SendRaw (byte[] data) {
             Client.Send (data);
-            var result = MessageHandler.WaitOne ();
+            MessageHandler.WaitOne ();
         }
 
         void InitializeParameters (string host, int port, string user, string path, string password) {

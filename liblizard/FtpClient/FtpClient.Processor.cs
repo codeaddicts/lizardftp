@@ -22,9 +22,9 @@ namespace Codeaddicts.Lizard
             // Set flags indicating whether the response
             // indicates success or failure
             var state = ClientState.None;
-            if (code.IsInRange (200, 400))
+            if (code.IsInRange (100, 300))
                 state |= ClientState.GoodResponse;
-            else if (code.IsInRange (400, 600))
+            else if (code.IsInRange (300, 600))
                 state |= ClientState.BadResponse;
 
             // Check the message code and act accordingly
@@ -50,11 +50,9 @@ namespace Codeaddicts.Lizard
             case 211:
                 // System status, or system help reply
                 // Response to FEAT
-                if (Regex.IsMatch(raw, RegexConstants.Multiline_Begin))
-                {
+                if (multiline) {
                     string line = ClientReader.ReadLine ();
-                    while (!Regex.IsMatch(line, RegexConstants.Multiline_End))
-                    {
+                    while (!Regex.IsMatch(line, RegexConstants.Multiline_End)) {
                         ProcessMessage (new FtpResponse (000, line, false), true);
                         line = ClientReader.ReadLine ();
                     }
@@ -95,11 +93,11 @@ namespace Codeaddicts.Lizard
                 IPEndPoint endpoint = null;
                 try {
                     endpoint = Parsers.ParsePasvResponse (message);
+                    Data.EndPoint = endpoint;
                 } catch (Exception e) {
                     LogMessage (000, string.Format ("Error parsing endpoint: {0}", e.Message));
                 }
-                if (endpoint != null)
-                    Data.EndPoint = endpoint;
+                state |= ClientState.OperationFailed;
                 break;
             case 230:
                 // User logged in, proceed
