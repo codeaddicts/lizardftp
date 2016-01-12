@@ -4,5 +4,11 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="liblizard\FtpClient\FtpClient.Abstractions.cs">
+    <Files>
+      <File FileName="liblizard\FtpClient\FtpClient.Processor.cs" Line="25" Column="27" />
+      <File FileName="lizardcli\Program.cs" Line="58" Column="30" />
+      <File FileName="liblizard\FtpClient\FtpClient.Abstractions.cs" Line="14" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
 </Properties>

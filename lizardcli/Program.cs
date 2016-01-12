@@ -6,6 +6,7 @@ using Codeaddicts.libArgument;
 using Codeaddicts.Lizard;
 using Codeaddicts.Lizard.Raw;
 using System.Net;
+using System.Collections;
 
 namespace Codeaddicts.Lizard.Cli
 {
