@@ -91,16 +91,20 @@ namespace Codeaddicts.Lizard
             this.PASV ();
         }
 
-        public void UploadFile (string fileName) {
+        public void UploadFile (string localFileName, string remoteFileName = null) {
             
             // Check if the file exists
-            if (!File.Exists (fileName))
-                throw new FileNotFoundException (fileName);
+            if (!File.Exists (localFileName))
+                throw new FileNotFoundException (localFileName);
+
+            // Check if the remote file name was specified
+            if (string.IsNullOrEmpty (remoteFileName))
+                remoteFileName = localFileName;
 
             // Initialize file transfer
-            this.STOR (fileName);
+            this.STOR (localFileName);
 
-            using (var file = File.OpenRead (fileName))
+            using (var file = File.OpenRead (localFileName))
             using (var reader = new BinaryReader (file)) {
                 while (reader.BaseStream.Position < reader.BaseStream.Length) {
                     var buf = reader.ReadBytes (512);
@@ -113,15 +117,15 @@ namespace Codeaddicts.Lizard
             MessageHandler.WaitOne ();
         }
 
-        public void DownloadFile (string remotefilename, string localfilename = null) {
+        public void DownloadFile (string remoteFileName, string localFileName = null) {
 
-            if (string.IsNullOrEmpty (localfilename))
-                localfilename = remotefilename;
+            if (string.IsNullOrEmpty (localFileName))
+                localFileName = remoteFileName;
             
             // Intitialize file transfer
-            this.RETR (remotefilename);
+            this.RETR (remoteFileName);
 
-            using (var file = File.Create (localfilename))
+            using (var file = File.Create (localFileName))
             using (var writer = new BinaryWriter (file)) {
                 var buf = new byte[512];
                 while (Data.Stream.Read (buf, 0, 512) > 0) {
