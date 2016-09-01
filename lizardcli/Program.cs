@@ -21,7 +21,7 @@ namespace Codeaddicts.Lizard.Cli
 
         public MainClass (string[] args) {
             Options = ArgumentParser.Parse<Options> (args);
-            Client = new FtpClient (Options.Format);
+            Client = new FtpClient ("web42000.pfweb.eu", "nikx@web42000.pfweb.eu", "n5L;S4f3", 21, "/");
         }
 
         public void Main () {
@@ -49,6 +49,7 @@ namespace Codeaddicts.Lizard.Cli
 
             // Subscribe to events
             Client.ConnectionClosed += QuitAndExit;
+            
 
             // Establish connection
             Client.Connect ();
@@ -59,6 +60,8 @@ namespace Codeaddicts.Lizard.Cli
                 QuitAndExit (null, null);
             } else
                 Console.WriteLine ("Login successful (returned true)");
+
+            Client.EstablishSSLConnection ();
 
             // Retrieve OS information
             Client.SYST ();
@@ -95,7 +98,7 @@ namespace Codeaddicts.Lizard.Cli
             // Console.ReadLine ();
 
             // Quit and exit
-            QuitAndExit (null, null);
+            Console.ReadLine ();
         }
 
         void TestDownloadAbortion () {

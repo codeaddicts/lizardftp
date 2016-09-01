@@ -34,6 +34,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventArgs\CertificateErrorEventArgs.cs" />
+    <Compile Include="FtpClient\FtpClient.SSL.cs" />
     <Compile Include="FtpClient\FtpResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FtpItems\FtpDirectory.cs" />
@@ -57,7 +59,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="EventArgs\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

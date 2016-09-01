@@ -60,5 +60,8 @@ namespace Codeaddicts.Lizard.Raw
 
         public static void LIST (this FtpClient client, string fileName = "")
             => client.Send (string.Format ("LIST {0}", fileName ?? string.Empty).TrimEnd ());
+
+        public static void AUTH (this FtpClient client, string method = "TLS")
+            => client.Send ($"AUTH {method}");
     }
 }

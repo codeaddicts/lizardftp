@@ -27,7 +27,7 @@ namespace Codeaddicts.Lizard
 
         // Networking stuff
         Socket Client;
-        NetworkStream ClientStream;
+        Stream ClientStream;
         StreamReader ClientReader;
         DataStream Data;
         ManualResetEvent MessageHandler;
@@ -48,6 +48,10 @@ namespace Codeaddicts.Lizard
 
         public FtpClient (string formatUri) {
             InitializeParameters (new UriParser (formatUri));
+        }
+
+        public FtpClient (string host, string user, string pass, int port, string path) {
+            InitializeParameters (host, port, user, path, pass);
         }
 
         // IDisposable implementation
